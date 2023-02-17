@@ -129,13 +129,21 @@ ball.style.top = `${ballPos.y}px`;
 
 
   function fireBullet() {
-    const bullet = document.createElement("div");
-    bullet.classList.add("bullet");
-    bullet.style.left = `${window.innerWidth - 30}px`;
-    bullet.style.top = `${ballPos.y + 10}px`;
-    document.body.appendChild(bullet);
-    bullets.push(bullet);
+  const bullet = document.createElement("div");
+  bullet.classList.add("bullet");
+  bullet.style.left = `${window.innerWidth - 30}px`;
+  bullet.style.top = `${ballPos.y + 10}px`;
+  
+  // Set a 1/4 chance of bullet being purple
+  const isPurple = Math.random() < 0.25;
+  if (isPurple) {
+    bullet.style.backgroundColor = "purple";
   }
+  
+  document.body.appendChild(bullet);
+  bullets.push(bullet);
+}
+
 
   setInterval(() => {
     if (!gameover) {
@@ -157,8 +165,10 @@ ball.style.top = `${ballPos.y}px`;
       const dx = ballPos.x - bulletPos.x;
       const dy = ballPos.y - bulletPos.y;
       const angle = Math.atan2(dy, dx);
-      bulletPos.x += Math.cos(angle) * 10;
-      bulletPos.y += Math.sin(angle) * 10;
+      const factor = distance / 200; // adjust this value to control the slowdown
+      const speed = 10 * factor; // adjust this value to control the speed
+      bulletPos.x += Math.cos(angle) * speed;
+      bulletPos.y += Math.sin(angle) * speed;
     } else {
       bulletPos.x -= 10;
     }
@@ -171,6 +181,7 @@ ball.style.top = `${ballPos.y}px`;
     }
   }
 }
+
 
 
   function checkCollision(pos1, size1, pos2, size2) {
