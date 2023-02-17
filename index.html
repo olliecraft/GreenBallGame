@@ -144,23 +144,34 @@ ball.style.top = `${ballPos.y}px`;
   }, 1000);
 
   function updateBullets() {
-    for (let i = 0; i < bullets.length; i++) {
-      const bullet = bullets[i];
-      const bulletPos = { x: parseInt(bullet.style.left), y: parseInt(bullet.style.top) };
+  for (let i = 0; i < bullets.length; i++) {
+    const bullet = bullets[i];
+    const bulletPos = { x: parseInt(bullet.style.left), y: parseInt(bullet.style.top) };
+    if (checkCollision(bulletPos, 30, ballPos, 50)) {
+      gameover = true;
+      document.getElementById("gameOver").style.display = "block";
+      break;
+    }
+    const distance = Math.sqrt((ballPos.x - bulletPos.x) ** 2 + (ballPos.y - bulletPos.y) ** 2);
+    if (distance < 200) { // change this distance to the desired value
+      const dx = ballPos.x - bulletPos.x;
+      const dy = ballPos.y - bulletPos.y;
+      const angle = Math.atan2(dy, dx);
+      bulletPos.x += Math.cos(angle) * 10;
+      bulletPos.y += Math.sin(angle) * 10;
+    } else {
       bulletPos.x -= 10;
-      bullet.style.left = `${bulletPos.x}px`;
-      if (bulletPos.x < -30) {
-        bullet.remove();
-        bullets.splice(i, 1);
-        i--;
-      }
-      if (checkCollision(bulletPos, 30, ballPos, 50)) {
-        gameover = true;
-        document.getElementById("gameOver").style.display = "block";
-        break;
-      }
+    }
+    bullet.style.left = `${bulletPos.x}px`;
+    bullet.style.top = `${bulletPos.y}px`;
+    if (bulletPos.x < -30) {
+      bullet.remove();
+      bullets.splice(i, 1);
+      i--;
     }
   }
+}
+
 
   function checkCollision(pos1, size1, pos2, size2) {
     return (
