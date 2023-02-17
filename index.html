@@ -128,14 +128,19 @@ ball.style.top = `${ballPos.y}px`;
 }
 
 
-  function fireBullet() {
-    const bullet = document.createElement("div");
-    bullet.classList.add("bullet");
-    bullet.style.left = `${window.innerWidth - 30}px`;
-    bullet.style.top = `${ballPos.y + 10}px`;
-    document.body.appendChild(bullet);
-    bullets.push(bullet);
-  }
+ function fireBullet() {
+  const bullet = document.createElement("div");
+  bullet.classList.add("bullet");
+  const angle = Math.random() * Math.PI * 2;
+  const radius = 100;
+  const x = ballPos.x + 25 + Math.cos(angle) * radius;
+  const y = ballPos.y + 25 + Math.sin(angle) * radius;
+  bullet.style.left = `${x}px`;
+  bullet.style.top = `${y}px`;
+  document.body.appendChild(bullet);
+  bullets.push(bullet);
+}
+
 
   setInterval(() => {
     if (!gameover) {
