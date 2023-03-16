@@ -161,11 +161,11 @@ ball.style.top = `${ballPos.y}px`;
       break;
     }
     const distance = Math.sqrt((ballPos.x - bulletPos.x) ** 2 + (ballPos.y - bulletPos.y) ** 2);
-    if (distance < 200) { // change this distance to the desired value
+    if (distance < 400) { // change this distance to the desired value
       const dx = ballPos.x - bulletPos.x;
       const dy = ballPos.y - bulletPos.y;
       const angle = Math.atan2(dy, dx);
-      const factor = distance / 200; // adjust this value to control the slowdown
+      const factor = distance / 400; // adjust this value to control the slowdown
       const speed = 10 * factor; // adjust this value to control the speed
       bulletPos.x += Math.cos(angle) * speed;
       bulletPos.y += Math.sin(angle) * speed;
